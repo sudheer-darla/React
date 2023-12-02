@@ -4,10 +4,12 @@ import { useState } from 'react';
 
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import { basicOps } from './utility/basicOps';
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProduct] = useState(null);
+  const [sortDirection, setSortDirection] = useState(0);
 
   useEffect(() => {
     (async function () {
@@ -22,14 +24,8 @@ function Home() {
     })();
   }, []);
 
-  let filteredArr = products;
-  if (searchTerm != '') {
-    filteredArr = filteredArr.filter((product) => {
-      let searchKey = searchTerm.toLowerCase();
-      let prodTitle = product.title.toLowerCase();
-      return prodTitle.includes(searchKey);
-    });
-  }
+  const modifiedArr = basicOps(products, searchTerm, sortDirection);
+  console.log('Boom: ', modifiedArr);
 
   return (
     <>
@@ -49,21 +45,27 @@ function Home() {
             <ArrowCircleUpIcon
               style={{ color: 'white' }}
               fontSize='large'
+              onClick={() => {
+                setSortDirection(1);
+              }}
             ></ArrowCircleUpIcon>
             <ArrowCircleDownIcon
               style={{ color: 'white' }}
               fontSize='large'
+              onClick={() => {
+                setSortDirection(-1);
+              }}
             ></ArrowCircleDownIcon>
           </div>
         </div>
       </header>
 
       <main className='product_wrapper'>
-        {filteredArr === null ? (
+        {modifiedArr === null ? (
           <h3>...Loading</h3>
         ) : (
           <>
-            {filteredArr.map((product) => {
+            {modifiedArr.map((product) => {
               return (
                 <div className='product'>
                   <img src={product.image} alt='' className='product_image' />
