@@ -2,6 +2,9 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+
 function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [products, setProduct] = useState(null);
@@ -31,14 +34,28 @@ function Home() {
   return (
     <>
       <header className='nav_wrapper'>
-        <input
-          className='search_input'
-          type='text'
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-          }}
-        />
+        <div className='searchSort_wrapeer'>
+          <input
+            className='search_input'
+            type='text'
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
+
+          <div className='icon-container'>
+            {' '}
+            <ArrowCircleUpIcon
+              style={{ color: 'white' }}
+              fontSize='large'
+            ></ArrowCircleUpIcon>
+            <ArrowCircleDownIcon
+              style={{ color: 'white' }}
+              fontSize='large'
+            ></ArrowCircleDownIcon>
+          </div>
+        </div>
       </header>
 
       <main className='product_wrapper'>
