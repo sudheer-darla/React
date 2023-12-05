@@ -68,3 +68,16 @@ body {
   border-radius: 10px;
   background-color: transparent;
 }
+
+.pagination {
+  display: flex;
+  height: 3rem;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.pagenum {
+  padding: 0.5rem;
+  font-size: 1.2rem;
+}
