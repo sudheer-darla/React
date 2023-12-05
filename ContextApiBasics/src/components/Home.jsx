@@ -5,11 +5,28 @@ import { useState } from 'react';
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import { basicOps } from './utility/basicOps';
+import Categories from './Categories';
 
 function Home() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [products, setProduct] = useState(null);
-  const [sortDirection, setSortDirection] = useState(0);
+    /***single source of truth for all the products***/
+    const [products, setProducts] = useState([]);
+
+    /************ all the categories -> a product**********/
+    const [categories, setCategories] = useState([]);
+
+    /**********Action***********/
+
+    /*********************** state ->term with which you want to filter the product list*****************************/
+    const [searchTerm, setSearchTerm] = useState("");
+
+    /**************************sort : 0 : unsorted , 1: incresing order , -1 : decreasing order ************************************/
+    const [sortDirection, setSortDirection] = useState(0);
+
+     /**************************** currcategory : category group you result **********************************/
+    const [currCategories, setCurrCategories] = useState(["All Categories"]);
+
+    const [pageSize, setPageSize] = useState(4);
+    const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
     (async function () {
@@ -20,9 +37,18 @@ function Home() {
         console.log(elem.title);
       });
 
-      setProduct(productData);
+      setProducts(productData);
     })();
   }, []);
+
+  /**************getting all the categroies ********************/
+    useEffect(() => {
+        (async function () {
+            const resp = await fetch(`https://fakestoreapi.com/products/categories`)
+            const categoriesData = await resp.json();
+            setCategories(categoriesData);
+        })()
+    }, [])
 
   const modifiedArr = basicOps(products, searchTerm, sortDirection);
   console.log('Boom: ', modifiedArr);
@@ -58,6 +84,13 @@ function Home() {
             ></ArrowCircleDownIcon>
           </div>
         </div>
+
+        <div className="categories_wrapper">
+                    <Categories
+                        categories={categories}
+                        setCurrCategories={setCurrCategories}
+                    />
+                </div>
       </header>
 
       <main className='product_wrapper'>
