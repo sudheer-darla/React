@@ -7,6 +7,7 @@ import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
 import basicOps from './utility/basicOps';
 
 import Categories from './Categories';
+import Productlist from './Productlist';
 
 function Home() {
     /***single source of truth for all the products***/
@@ -48,7 +49,7 @@ function Home() {
         })()
     }, [])
 
-    let modifiedArr = basicOps(products, searchTerm, sortDirection, currCategories);   
+    let modifiedArray = basicOps(products, searchTerm, sortDirection, currCategories);   
   
 
   return (
@@ -91,25 +92,10 @@ function Home() {
                 </div>
       </header>
 
-      <main className='product_wrapper'>
-        {modifiedArr === null ? (
-          <h3>...Loading</h3>
-        ) : (
-          <>
-            {modifiedArr.map((product) => {
-              return (
-                <div className='product'>
-                  <img src={product.image} alt='' className='product_image' />
-                  <div className='product_meta'>
-                    <p className='product_title'>{product.title}</p>
-                    <p className='Price'>$ {product.price}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </>
-        )}
-      </main>
+      <main className="product_wrapper">
+                {/* products will be there */}
+                <Productlist productList={modifiedArray} />
+            </main>
     </>
   );
 }
