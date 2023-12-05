@@ -30,6 +30,9 @@ function Home() {
   /**************************** currcategory : category group you result **********************************/
   const [currCategories, setCurrCategories] = useState(["All Categories"]);
 
+  const [pageSize, setPageSize] = useState(4);
+  const [pageNum, setPageNum] = useState(1);
+
   useEffect(() => {
     (async function () {
       const response = await fetch(`https://fakestoreapi.com/products`);
@@ -52,12 +55,16 @@ function Home() {
     })();
   }, []);
 
-  let modifiedArray = basicOps(
+  let object = basicOps(
     products,
     searchTerm,
     sortDirection,
-    currCategories
+    currCategories,
+    pageNum,
+    pageSize
   );
+  let modifiedArray = object.modifiedArray;
+  let totalPages = object.totalPages;
 
   return (
     <>
@@ -105,8 +112,29 @@ function Home() {
       </main>
 
       <div className="pagination">
-        <KeyboardArrowLeftIcon></KeyboardArrowLeftIcon>
-        <ChevronRightIcon></ChevronRightIcon>
+        <button
+          onClick={() => {
+            if (pageNum == 1) {
+              return;
+            }
+            setPageNum((pageNum) => pageNum - 1);
+          }}
+          disabled={pageNum == 1 ? true : false}
+        >
+          <KeyboardArrowLeftIcon fontSize="large"></KeyboardArrowLeftIcon>
+        </button>
+        <div className="pageNum">{pageNum}</div>
+        <button
+          onClick={() => {
+            if (pageNum == totalPages) {
+              return;
+            }
+            setPageNum((pageNum) => pageNum + 1);
+          }}
+          disabled={pageNum == totalPages ? true : false}
+        >
+          <ChevronRightIcon fontSize="large"></ChevronRightIcon>
+        </button>
       </div>
     </>
   );

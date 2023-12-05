@@ -41,7 +41,24 @@ const categorization = (arrayOfProducts, currCategories) => {
   return modifiedArray;
 };
 
-function basicOps(products, searchTerm, sortDir, currCategories) {
+const pagination = (arrayOfProducts, pageNum, pageSize) => {
+  let modifiedArray = arrayOfProducts;
+
+  let totalPages = Math.ceil(modifiedArray.length / pageSize);
+  let sidx = (pageNum - 1) * pageSize;
+  let eidx = sidx + pageSize;
+  modifiedArray = modifiedArray.slice(sidx, eidx);
+  return { modifiedArray, totalPages };
+};
+
+function basicOps(
+  products,
+  searchTerm,
+  sortDir,
+  currCategories,
+  pageNum,
+  pageSize
+) {
   if (products == null) {
     return;
   }
@@ -54,7 +71,10 @@ function basicOps(products, searchTerm, sortDir, currCategories) {
   modifiedArray = sortingOfProdcts(modifiedArray, sortDir);
 
   /**************************categorization**********************************************/
-  return categorization(modifiedArray, currCategories);
+  modifiedArray = categorization(modifiedArray, currCategories);
+
+  /************************Pagination *********************/
+  return pagination(modifiedArray, pageNum, pageSize);
 }
 
 export default basicOps;
