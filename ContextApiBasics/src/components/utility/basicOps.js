@@ -1,24 +1,60 @@
-export function basicOps(products, searchTerm, sortDirection) {
-  if (products === null) {
-    console.log('empty products');
-    return null;
-  }
-  let filteredArr = products;
-  if (searchTerm != '') {
-    filteredArr = filteredArr.filter((product) => {
-      let searchKey = searchTerm.toLowerCase();
-      let prodTitle = product.title.toLowerCase();
-      return prodTitle.includes(searchKey);
+import React from "react";
+
+const searchItems = (arrayOfProducts, searchTerm) => {
+  let modifiedArray = arrayOfProducts;
+  if (searchTerm != "") {
+    modifiedArray = modifiedArray.filter((product) => {
+      let lowerSearchTerm = searchTerm.toLowerCase();
+      let lowerTitle = product.title.toLowerCase();
+      return lowerTitle.includes(lowerSearchTerm);
     });
   }
+  return modifiedArray;
+};
 
-  let filteredAndSortedArr = filteredArr;
-  if (sortDirection !== 0) {
-    if (sortDirection > 0)
-      filteredAndSortedArr.sort((p1, p2) => p1.price - p2.price);
-    else filteredAndSortedArr.sort((p1, p2) => p2.price - p1.price);
+const sortingOfProdcts = (arrayOfProducts, sortDir) => {
+  let modifiedArray = arrayOfProducts;
+  if (sortDir != 0) {
+    if (sortDir == 1) {
+      // i=Increasing Order.
+      modifiedArray = modifiedArray.sort((product1, product2) => {
+        return product1.price - product2.price;
+      });
+    } else {
+      // Decreasing Order.
+      modifiedArray = modifiedArray.sort((product1, product2) => {
+        return product2.price - product1.price;
+      });
+    }
+  }
+  return modifiedArray;
+};
+
+const categorization = (arrayOfProducts, currCategories) => {
+  console.log("Categorization", arrayOfProducts, currCategories);
+  let modifiedArray = arrayOfProducts;
+  if (currCategories != "All Categories") {
+    modifiedArray = modifiedArray.filter((product) => {
+      return product.category == currCategories;
+    });
+  }
+  return modifiedArray;
+};
+
+function basicOps(products, searchTerm, sortDir, currCategories) {
+  if (products == null) {
+    return;
   }
 
-  //   console.log(filteredAndSortedArr);
-  return filteredAndSortedArr;
+  let modifiedArray = products;
+  /*************filtering -> hiding  products*************/
+  modifiedArray = searchItems(modifiedArray, searchTerm);
+
+  /***********************sorting -> rearrange**********************************/
+  modifiedArray = sortingOfProdcts(modifiedArray, sortDir);
+
+  /**************************categorization**********************************************/
+  return categorization(modifiedArray, currCategories);
 }
+
+export default basicOps;

@@ -4,7 +4,8 @@ import { useState } from 'react';
 
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
-import { basicOps } from './utility/basicOps';
+import basicOps from './utility/basicOps';
+
 import Categories from './Categories';
 
 function Home() {
@@ -23,10 +24,7 @@ function Home() {
     const [sortDirection, setSortDirection] = useState(0);
 
      /**************************** currcategory : category group you result **********************************/
-    const [currCategories, setCurrCategories] = useState(["All Categories"]);
-
-    const [pageSize, setPageSize] = useState(4);
-    const [pageNum, setPageNum] = useState(1);
+    const [currCategories, setCurrCategories] = useState(["All Categories"]);   
 
   useEffect(() => {
     (async function () {
@@ -50,8 +48,8 @@ function Home() {
         })()
     }, [])
 
-  const modifiedArr = basicOps(products, searchTerm, sortDirection);
-  console.log('Boom: ', modifiedArr);
+    let modifiedArr = basicOps(products, searchTerm, sortDirection, currCategories);   
+  
 
   return (
     <>
