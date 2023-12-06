@@ -12,9 +12,15 @@ function Counter() {
   };
   return (
     <>
-      <button onClick={handleIncrement}>+</button>
-      <h3>{count}</h3>
-      <button onClick={handleDecrement}>-</button>
+      <div className="counter-container">
+        <button className="counterbtn" onClick={handleIncrement}>
+          +
+        </button>
+        <h3>{count}</h3>
+        <button className="counterbtn" onClick={handleDecrement}>
+          -
+        </button>
+      </div>
     </>
   );
 }
